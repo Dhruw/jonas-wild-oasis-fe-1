@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import Logo from './Logo';
+import MainNav from './MainNav';
 
 const StyledSidebar = styled.aside`
   padding: 3.2rem 2.4rem;
@@ -8,7 +10,12 @@ const StyledSidebar = styled.aside`
 `;
 
 function Sidebar() {
-  return <StyledSidebar></StyledSidebar>;
+  return (
+    <StyledSidebar>
+      <Logo />
+      <MainNav />
+    </StyledSidebar>
+  );
 }
 
 export default Sidebar;
