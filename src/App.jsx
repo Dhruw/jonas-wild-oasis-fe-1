@@ -1,10 +1,15 @@
 import GlobalStyles from './styles/GlobalStyles';
+import Button from './ui/Button';
+import Input from './ui/Input';
+import Heading from './ui/Heading';
 
 function App() {
   return (
     <>
       <GlobalStyles />
-      <div>Test</div>;
+      <div>Test</div>;<Button> Test </Button>
+      <Input />
+      <Heading red>Hello</Heading>
     </>
   );
 }
