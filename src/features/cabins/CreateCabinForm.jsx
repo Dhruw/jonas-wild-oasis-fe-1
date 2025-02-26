@@ -47,7 +47,12 @@ const Error = styled.span`
 `;
 
 function CreateCabinForm() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm();
 
   const queryClient = useQueryClient();
 
@@ -65,21 +70,44 @@ function CreateCabinForm() {
   function onSubmitFunction(data) {
     mutate(data);
   }
+
+  function onErrorFunction(error) {
+    console.log(error);
+    toast.error('Something went wrong');
+  }
+
   return (
-    <Form onSubmit={handleSubmit(onSubmitFunction)}>
+    <Form onSubmit={handleSubmit(onSubmitFunction, onErrorFunction)}>
       <FormRow>
         <Label htmlFor="name">Cabin name</Label>
-        <Input type="text" id="name" {...register('name')} />
+        <Input
+          type="text"
+          id="name"
+          {...register('name', { required: 'This field is required' })}
+        />
+        {errors?.name?.type && <Error> Put something here </Error>}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="maxCapacity">Maximum capacity</Label>
-        <Input type="number" id="maxCapacity" {...register('maxCapacity')} />
+        <Input
+          type="number"
+          id="maxCapacity"
+          {...register('maxCapacity', {
+            required: 'This field is required',
+            min: { value: 1, message: 'minimum 1 required' },
+          })}
+        />
+        {errors?.maxCapacity?.type && <Error> Put something here </Error>}
       </FormRow>
 
       <FormRow>
         <Label htmlFor="regularPrice">Regular price</Label>
-        <Input type="number" id="regularPrice" {...register('regularPrice')} />
+        <Input
+          type="number"
+          id="regularPrice"
+          {...register('regularPrice', { required: 'This field is required' })}
+        />
       </FormRow>
 
       <FormRow>
@@ -88,7 +116,12 @@ function CreateCabinForm() {
           type="number"
           id="discount"
           defaultValue={0}
-          {...register('discount')}
+          {...register('discount', {
+            required: 'This field is required',
+            validate: (value) =>
+              value <= getValues().regularPrice ||
+              'Discount must be less than Regular Price',
+          })}
         />
       </FormRow>
 
@@ -98,7 +131,7 @@ function CreateCabinForm() {
           type="number"
           id="description"
           defaultValue=""
-          {...register('description')}
+          {...register('description', { required: 'This field is required' })}
         />
       </FormRow>
 

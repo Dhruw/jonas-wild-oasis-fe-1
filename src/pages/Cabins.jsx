@@ -21,8 +21,8 @@ function Cabins() {
         <Button onClick={() => setShowCreateCabinModal(true)}>
           Create New Cabin
         </Button>
-        {showCreateCabinModal && <CreateCabinForm />}
       </Row>
+      <Row>{showCreateCabinModal && <CreateCabinForm />}</Row>
     </>
   );
 }
