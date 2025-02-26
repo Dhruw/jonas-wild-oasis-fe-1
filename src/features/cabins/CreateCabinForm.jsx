@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createCabin } from '@/services/apiCabins';
 import toast from 'react-hot-toast';
+import FormRowx from '@/ui/FormRow';
 
 const FormRow = styled.div`
   display: grid;
@@ -78,68 +79,89 @@ function CreateCabinForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmitFunction, onErrorFunction)}>
-      <FormRow>
-        <Label htmlFor="name">Cabin name</Label>
-        <Input
-          type="text"
-          id="name"
-          {...register('name', { required: 'This field is required' })}
-        />
-        {errors?.name?.type && <Error> Put something here </Error>}
-      </FormRow>
+      <FormRowx
+        labelName="Cabin name"
+        inputId="name"
+        register={register}
+        validationRules={{ required: 'This field is required' }}
+        errorMessage="Put something here"
+        errors={errors}
+      />
 
-      <FormRow>
-        <Label htmlFor="maxCapacity">Maximum capacity</Label>
-        <Input
-          type="number"
-          id="maxCapacity"
-          {...register('maxCapacity', {
-            required: 'This field is required',
-            min: { value: 1, message: 'minimum 1 required' },
-          })}
-        />
-        {errors?.maxCapacity?.type && <Error> Put something here </Error>}
-      </FormRow>
+      <FormRowx
+        labelName="Maximum capacity"
+        inputId="maxCapacity"
+        register={register}
+        validationRules={{
+          required: 'This field is required',
+          min: { value: 1, message: 'minimum 1 required' },
+        }}
+        errorMessage="Put something here for max capacity"
+        errors={errors}
+      />
 
-      <FormRow>
-        <Label htmlFor="regularPrice">Regular price</Label>
-        <Input
-          type="number"
-          id="regularPrice"
-          {...register('regularPrice', { required: 'This field is required' })}
-        />
-      </FormRow>
+      <FormRowx
+        labelName="Regular price"
+        inputId="regularPrice"
+        register={register}
+        validationRules={{ required: 'This field is required' }}
+        errorMessage="This field is required"
+        errors={errors}
+      />
 
-      <FormRow>
-        <Label htmlFor="discount">Discount</Label>
-        <Input
-          type="number"
-          id="discount"
-          defaultValue={0}
-          {...register('discount', {
-            required: 'This field is required',
-            validate: (value) =>
-              value <= getValues().regularPrice ||
-              'Discount must be less than Regular Price',
-          })}
-        />
-      </FormRow>
+      <FormRowx
+        labelName="Discount"
+        inputId="discount"
+        register={register}
+        validationRules={{
+          required: 'This field is required',
+          validate: (value) =>
+            value <= getValues().regularPrice ||
+            'Discount must be less than Regular Price',
+        }}
+        errorMessage="Discount must be less than Regular Price"
+        errors={errors}
+        type="number"
+      />
+
+      {/* <FormRowx
+        labelName=""
+        inputId=""
+        register={register}
+        validationRules={}
+        errorMessage=""
+        errors={errors}
+      /> */}
 
       <FormRow>
         <Label htmlFor="description">Description for website</Label>
         <Textarea
-          type="number"
           id="description"
           defaultValue=""
           {...register('description', { required: 'This field is required' })}
         />
       </FormRow>
 
+      {/* <FormRowx
+        labelName=""
+        inputId=""
+        register={register}
+        validationRules={}
+        errorMessage=""
+        errors={errors}
+      /> */}
       <FormRow>
         <Label htmlFor="image">Cabin photo</Label>
         <FileInput id="image" accept="image/*" {...register('image')} />
       </FormRow>
-
+      {/* <FormRowx
+        labelName=""
+        inputId=""
+        register={register}
+        validationRules={}
+        errorMessage=""
+        errors={errors}
+      /> */}
       <FormRow>
         {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset">
