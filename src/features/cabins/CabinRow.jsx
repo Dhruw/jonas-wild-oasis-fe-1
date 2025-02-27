@@ -1,11 +1,9 @@
-import styled from 'styled-components';
 import { formatCurrency } from '@/utils/helpers';
-import { deleteCabin } from '@/services/apiCabins';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
 import { useState } from 'react';
+import styled from 'styled-components';
 import CreateCabinForm from './CreateCabinForm';
 import useDeleteCabin from './useDeleteCabin';
+import useDuplicateCabin from './useDuplicateCabin';
 
 const TableRow = styled.div`
   display: grid;
@@ -53,7 +51,7 @@ function CabinRow({ cabin }) {
   const [showEditForm, setShowEditForm] = useState(false);
 
   const deleteCabinMutation = useDeleteCabin();
-
+  const duplicateCabin = useDuplicateCabin();
   return (
     <>
       <TableRow>
@@ -73,6 +71,14 @@ function CabinRow({ cabin }) {
             Delete
           </button>
           <button onClick={() => setShowEditForm(true)}>Edit</button>
+          <button onClick={() => duplicateCabin(cabin)}>Duplicate</button>
+          {/* <button
+            onClick={() => {
+              console.log(cabin);
+            }}
+          >
+            Duplicate
+          </button> */}
         </div>
       </TableRow>
       {showEditForm && <CreateCabinForm editFormData={cabin} />}
