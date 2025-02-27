@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import CreateCabinForm from './CreateCabinForm';
+import useDeleteCabin from './useDeleteCabin';
 
 const TableRow = styled.div`
   display: grid;
@@ -51,18 +52,7 @@ function CabinRow({ cabin }) {
 
   const [showEditForm, setShowEditForm] = useState(false);
 
-  const queryClient = useQueryClient();
-  const { mutate, data } = useMutation({
-    mutationFn: deleteCabin,
-    onSuccess: () => {
-      // queryClient.invalidateQueries({ exact: 'cabin' });
-      queryClient.invalidateQueries({ queryKeys: ['cabin'] });
-      toast.success('Deleted successfully');
-    },
-    onError: (error) => {
-      toast.error('Something went wrong');
-    },
-  });
+  const deleteCabinMutation = useDeleteCabin();
 
   return (
     <>
@@ -77,7 +67,7 @@ function CabinRow({ cabin }) {
           <button
             onClick={(e) => {
               e.preventDefault();
-              mutate(id);
+              deleteCabinMutation(id);
             }}
           >
             Delete

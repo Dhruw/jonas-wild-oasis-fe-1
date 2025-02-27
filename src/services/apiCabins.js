@@ -47,6 +47,7 @@ export async function createCabin(newCabin) {
 }
 
 export async function updateCabin(newCabin, id = null) {
+  console.log(id);
   const hasImagePath = typeof newCabin?.image === 'string';
 
   // 1. Create record for Cabin

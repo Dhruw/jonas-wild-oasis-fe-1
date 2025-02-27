@@ -10,6 +10,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createCabin, updateCabin } from '@/services/apiCabins';
 import toast from 'react-hot-toast';
 import FormRowx from '@/ui/FormRow';
+import useCreateCabin from './useCreateCabin';
+import useUpdateCabin from './useUpdateCabin';
 
 const FormRow = styled.div`
   display: grid;
@@ -60,32 +62,12 @@ function CreateCabinForm({ editFormData = {} }) {
     defaultValues: isEditSession ? editData : {},
   });
 
-  const queryClient = useQueryClient();
-
-  const { mutate: createCabinMutation } = useMutation({
-    mutationFn: (newCabin) => createCabin(newCabin),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ exact: 'cabin' });
-      toast.success('New cabin created');
-    },
-    onError: (error) => {
-      alert(error.message);
-    },
-  });
-
-  const { mutate: editCabinMutation } = useMutation({
-    mutationFn: (newCabin) => updateCabin(newCabin, editId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ exact: 'cabin' });
-      toast.success('Cabin Successfully Edited');
-    },
-    onError: (error) => {
-      alert(error.message);
-    },
-  });
+  const createCabinMutation = useCreateCabin();
+  const updateCabinMutation = useUpdateCabin();
 
   function onSubmitFunction(data) {
-    if (isEditSession) editCabinMutation({ ...data, image: data.image });
+    if (isEditSession)
+      updateCabinMutation({ ...data, image: data.image, id: editId });
     else createCabinMutation({ ...data, image: data.image[0] });
   }
 
