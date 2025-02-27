@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import Form from '@/ui/Form';
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createCabin } from '@/services/apiCabins';
+import { createCabin, updateCabin } from '@/services/apiCabins';
 import toast from 'react-hot-toast';
 import FormRowx from '@/ui/FormRow';
 
@@ -47,17 +47,22 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function CreateCabinForm() {
+function CreateCabinForm({ editFormData = {} }) {
+  const { id: editId, ...editData } = editFormData;
+  const isEditSession = Boolean(editId);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
-  } = useForm();
+  } = useForm({
+    defaultValues: isEditSession ? editData : {},
+  });
 
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate: createCabinMutation } = useMutation({
     mutationFn: (newCabin) => createCabin(newCabin),
     onSuccess: () => {
       queryClient.invalidateQueries({ exact: 'cabin' });
@@ -68,8 +73,20 @@ function CreateCabinForm() {
     },
   });
 
+  const { mutate: editCabinMutation } = useMutation({
+    mutationFn: (newCabin) => updateCabin(newCabin, editId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ exact: 'cabin' });
+      toast.success('Cabin Successfully Edited');
+    },
+    onError: (error) => {
+      alert(error.message);
+    },
+  });
+
   function onSubmitFunction(data) {
-    mutate({ ...data, image: data.image[0] });
+    if (isEditSession) editCabinMutation({ ...data, image: data.image });
+    else createCabinMutation({ ...data, image: data.image[0] });
   }
 
   function onErrorFunction(error) {
@@ -167,7 +184,7 @@ function CreateCabinForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button>Add Cabin</Button>
+        <Button>{isEditSession ? 'Update Cabin' : 'Add Cabin'}</Button>
       </FormRow>
     </Form>
   );
