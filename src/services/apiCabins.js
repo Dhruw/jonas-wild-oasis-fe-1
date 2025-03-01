@@ -1,4 +1,4 @@
-import supabase from './supabse';
+import supabase from './supabase';
 
 async function getCabins() {
   let { data: cabins, error } = await supabase.from('cabins').select('*');
