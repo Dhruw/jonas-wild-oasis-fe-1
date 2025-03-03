@@ -1,6 +1,4 @@
-import React from 'react';
-import styled from 'styled-components';
-import Input from './Input';
+import styled from "styled-components";
 
 const StyledFormRow = styled.div`
   display: grid;
@@ -38,20 +36,12 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function FormRow({
-  labelName,
-  inputId,
-  register,
-  validationRules,
-  errorMessage,
-  errors,
-  type = 'text',
-}) {
+function FormRow({ label, error, children }) {
   return (
     <StyledFormRow>
-      <Label htmlFor={inputId}>{labelName}</Label>
-      <Input type={type} id={inputId} {...register(inputId, validationRules)} />
-      {errors[inputId]?.type && <Error> {errorMessage} </Error>}
+      {label && <Label htmlFor={children.props.id}>{label}</Label>}
+      {children}
+      {error && <Error>{error}</Error>}
     </StyledFormRow>
   );
 }

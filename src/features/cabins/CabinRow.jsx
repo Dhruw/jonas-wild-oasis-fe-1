@@ -50,7 +50,7 @@ function CabinRow({ cabin }) {
 
   const [showEditForm, setShowEditForm] = useState(false);
 
-  const deleteCabinMutation = useDeleteCabin();
+  const { isDeleting, deleteCabinMutation } = useDeleteCabin();
   const duplicateCabin = useDuplicateCabin();
   return (
     <>

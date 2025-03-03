@@ -1,11 +1,11 @@
 import useCreateCabin from './useCreateCabin';
 
 function useDuplicateCabin() {
-  const createCabinMutation = useCreateCabin();
+  const { createCabinMutation } = useCreateCabin();
   const duplicateCabin = (newCabin) => {
     delete newCabin.id;
     newCabin.name = `Copy of ${newCabin.name}`;
-    console.log(newCabin)
+    console.log(newCabin);
 
     createCabinMutation(newCabin);
   };

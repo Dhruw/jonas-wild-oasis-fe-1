@@ -1,12 +1,16 @@
-import useSettings from '@/features/settings/useSettings';
-import Heading from '@/ui/Heading';
+import UpdateSettingsForm from '../features/settings/UpdateSettingsForm';
+import Heading from '../ui/Heading';
+import Row from '../ui/Row';
 
 function Settings() {
-  const { data, error, isLoading } = useSettings();
-
   return (
     <>
-      <Heading as="h1">Update hotel settings</Heading>
+      <Row>
+        <Heading as="h1">Update hotel settings</Heading>
+      </Row>
+      <Row>
+        <UpdateSettingsForm />
+      </Row>
     </>
   );
 }
