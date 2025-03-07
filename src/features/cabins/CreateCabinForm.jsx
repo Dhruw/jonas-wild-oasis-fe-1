@@ -9,7 +9,7 @@ import Input from '@/ui/Input';
 import Textarea from '@/ui/Textarea';
 import Form from '@/ui/Form';
 
-function CreateCabinForm({ editFormData = {} }) {
+function CreateCabinForm({ editFormData = {}, onClose = null }) {
   const { isCreating, createCabinMutation } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
@@ -36,6 +36,7 @@ function CreateCabinForm({ editFormData = {} }) {
         {
           onSuccess: (data) => {
             reset();
+            onClose?.();
           },
         }
       );
@@ -45,6 +46,7 @@ function CreateCabinForm({ editFormData = {} }) {
         {
           onSuccess: (data) => {
             reset();
+            onClose?.();
           },
         }
       );
@@ -55,7 +57,11 @@ function CreateCabinForm({ editFormData = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmitFunction, onError)} method="post">
+    <Form
+      onSubmit={handleSubmit(onSubmitFunction, onError)}
+      method="post"
+      type={onClose ? 'modal' : 'regular'}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -138,7 +144,7 @@ function CreateCabinForm({ editFormData = {} }) {
       </FormRow>
 
       <FormRow>
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={onClose}>
           Cancel
         </Button>
         <Button disabled={isWorking}>
