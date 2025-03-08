@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import CreateCabinForm from './CreateCabinForm';
 import useDeleteCabin from './useDeleteCabin';
 import useDuplicateCabin from './useDuplicateCabin';
+import Modal from '@/ui/Modal';
 
 const TableRow = styled.div`
   display: grid;
@@ -70,18 +71,17 @@ function CabinRow({ cabin }) {
           >
             Delete
           </button>
-          <button onClick={() => setShowEditForm(true)}>Edit</button>
+          <Modal>
+            <Modal.Open opens="edit-modal">
+              <button>Edit</button>
+            </Modal.Open>
+            <Modal.Window name="edit-modal">
+              <CreateCabinForm editFormData={cabin} />
+            </Modal.Window>
+          </Modal>
           <button onClick={() => duplicateCabin(cabin)}>Duplicate</button>
-          {/* <button
-            onClick={() => {
-              console.log(cabin);
-            }}
-          >
-            Duplicate
-          </button> */}
         </div>
       </TableRow>
-      {showEditForm && <CreateCabinForm editFormData={cabin} />}
     </>
   );
 }
