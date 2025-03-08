@@ -5,6 +5,8 @@ import CreateCabinForm from './CreateCabinForm';
 import useDeleteCabin from './useDeleteCabin';
 import useDuplicateCabin from './useDuplicateCabin';
 import Modal from '@/ui/Modal';
+import ConfirmDelete from '@/ui/ConfirmDelete';
+import { HiTrash } from 'react-icons/hi2';
 
 const TableRow = styled.div`
   display: grid;
@@ -63,14 +65,30 @@ function CabinRow({ cabin }) {
         <Discount> {discount} </Discount>
         {/* <div>{description}</div> */}
         <div>
-          <button
+          {/* Delete */}
+          <Modal>
+            <Modal.Open opens="delete-modal">
+              <button>
+                <HiTrash />
+              </button>
+            </Modal.Open>
+            <Modal.Window name="delete-modal">
+              <ConfirmDelete
+                resourceName={name}
+                onConfirm={() => deleteCabinMutation(id)}
+                disabled={isDeleting}
+              />
+            </Modal.Window>
+          </Modal>
+          {/* <button
             onClick={(e) => {
               e.preventDefault();
               deleteCabinMutation(id);
             }}
           >
             Delete
-          </button>
+          </button> */}
+          {/* Edit */}
           <Modal>
             <Modal.Open opens="edit-modal">
               <button>Edit</button>
