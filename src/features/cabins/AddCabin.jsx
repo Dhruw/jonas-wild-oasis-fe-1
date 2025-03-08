@@ -6,23 +6,22 @@ import CreateCabinForm from './CreateCabinForm';
 import { useState } from 'react';
 
 function AddCabin() {
-  const [showCreateCabinModal, setShowCreateCabinModal] = useState(false);
-
   return (
-    <div>
-      <Row>
-        <Button onClick={() => setShowCreateCabinModal((show) => !show)}>
-          Create New Cabin
-        </Button>
-      </Row>
-      <Row>
-        {showCreateCabinModal && (
-          <Modal onClose={() => setShowCreateCabinModal(false)}>
-            <CreateCabinForm onClose={() => setShowCreateCabinModal(false)} />
-          </Modal>
-        )}
-      </Row>
-    </div>
+    <Modal>
+      <Modal.Open opens="cabin-form">
+        <Button> Create New Cabin</Button>
+      </Modal.Open>
+      <Modal.Window name="cabin-form">
+        <CreateCabinForm />
+      </Modal.Window>
+      {/* //// */}
+      {/* <Modal.Open opens="table-modal">
+        <Button> Open Table</Button>
+      </Modal.Open>
+      <Modal.Window name="table-modal">
+        <div>ABCD</div>
+      </Modal.Window> */}
+    </Modal>
   );
 }
 
