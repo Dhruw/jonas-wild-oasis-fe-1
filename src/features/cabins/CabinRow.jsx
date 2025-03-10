@@ -51,42 +51,7 @@ function CabinRow({ cabin }) {
         <div>{maxCapacity}</div>
         <Price> {formatCurrency(regularPrice)} </Price>
         <Discount> {discount} </Discount>
-        {/* <div>{description}</div> */}
         <div>
-          {/* Delete */}
-          <Modal>
-            <Modal.Open opens="delete-modal">
-              <button>
-                <HiTrash />
-              </button>
-            </Modal.Open>
-            <Modal.Window name="delete-modal">
-              <ConfirmDelete
-                resourceName={name}
-                onConfirm={() => deleteCabinMutation(id)}
-                disabled={isDeleting}
-              />
-            </Modal.Window>
-          </Modal>
-          {/* <button
-            onClick={(e) => {
-              e.preventDefault();
-              deleteCabinMutation(id);
-            }}
-          >
-            Delete
-          </button> */}
-          {/* Edit */}
-          <Modal>
-            <Modal.Open opens="edit-modal">
-              <button>Edit</button>
-            </Modal.Open>
-            <Modal.Window name="edit-modal">
-              <CreateCabinForm editFormData={cabin} />
-            </Modal.Window>
-          </Modal>
-          <button onClick={() => duplicateCabin(cabin)}>Duplicate</button>
-
           <Modal>
             <Menus>
               <Menus.Menu>
