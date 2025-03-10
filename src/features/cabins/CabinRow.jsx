@@ -87,21 +87,39 @@ function CabinRow({ cabin }) {
           </Modal>
           <button onClick={() => duplicateCabin(cabin)}>Duplicate</button>
 
-          <Menus>
-            <Menus.Menu>
-              <Menus.Toggle id={id} />
-              <Menus.List id={id}>
-                <Menus.Button
-                  icon={<HiSquare2Stack />}
-                  onClick={() => duplicateCabin(cabin)}
-                >
-                  Duplicate
-                </Menus.Button>
-                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
-                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
-              </Menus.List>
-            </Menus.Menu>
-          </Menus>
+          <Modal>
+            <Menus>
+              <Menus.Menu>
+                <Menus.Toggle id={id} />
+                <Menus.List id={id}>
+                  <Menus.Button
+                    icon={<HiSquare2Stack />}
+                    onClick={() => duplicateCabin(cabin)}
+                  >
+                    Duplicate
+                  </Menus.Button>
+
+                  <Modal.Open opens="edit-modal">
+                    <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                  </Modal.Open>
+
+                  <Modal.Open opens="delete-modal">
+                    <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                  </Modal.Open>
+                </Menus.List>
+              </Menus.Menu>
+            </Menus>
+            <Modal.Window name="edit-modal">
+              <CreateCabinForm editFormData={cabin} />
+            </Modal.Window>
+            <Modal.Window name="delete-modal">
+              <ConfirmDelete
+                resourceName={name}
+                onConfirm={() => deleteCabinMutation(id)}
+                disabled={isDeleting}
+              />
+            </Modal.Window>
+          </Modal>
         </div>
       </Table.Row>
     </>
