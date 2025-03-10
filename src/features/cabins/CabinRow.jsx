@@ -2,11 +2,13 @@ import ConfirmDelete from '@/ui/ConfirmDelete';
 import Modal from '@/ui/Modal';
 import Table from '@/ui/Table';
 import { formatCurrency } from '@/utils/helpers';
-import { HiTrash } from 'react-icons/hi2';
+import { HiPencil, HiSquare2Stack, HiTrash } from 'react-icons/hi2';
 import styled from 'styled-components';
 import CreateCabinForm from './CreateCabinForm';
 import useDeleteCabin from './useDeleteCabin';
 import useDuplicateCabin from './useDuplicateCabin';
+import Menus from '@/ui/Menus';
+import { HiDuplicate } from 'react-icons/hi';
 
 const Img = styled.img`
   display: block;
@@ -84,6 +86,22 @@ function CabinRow({ cabin }) {
             </Modal.Window>
           </Modal>
           <button onClick={() => duplicateCabin(cabin)}>Duplicate</button>
+
+          <Menus>
+            <Menus.Menu>
+              <Menus.Toggle id={id} />
+              <Menus.List id={id}>
+                <Menus.Button
+                  icon={<HiSquare2Stack />}
+                  onClick={() => duplicateCabin(cabin)}
+                >
+                  Duplicate
+                </Menus.Button>
+                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Menus.List>
+            </Menus.Menu>
+          </Menus>
         </div>
       </Table.Row>
     </>
